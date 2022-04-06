@@ -1,11 +1,14 @@
-
-// C program to implement sighup(), sigint()
-// and sigquit() signal functions
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#include <sys/types.h>
 #include <unistd.h>
+#include <bits/sigaction.h>
+
 
 pid_t g_pid = 0;
 
@@ -42,6 +45,15 @@ void	ft_putstr(char *s)
 		ft_putchar(s[i]);
 }
 
+int ft_pow(int a, int b)
+{
+	int res = a;
+	while(--b)
+	{
+		res *= a;
+	}
+}
+
 void	reset(int *i, int *res)
 {
 	(*i) = 0;
@@ -54,15 +66,12 @@ void	handler(int sig, siginfo_t *info, void *p)
 	static int		res;
 
 	(void)p;
-	if (g_pid != info->si_pid)
-	{
-		reset(&i, &res);
-		g_pid = info->si_pid;
-	}
-	if(sig == SIGUSR1)
-		res +=  ft_pow(2, 8-(i+1));
-	i++;
-	if (i == 8)
+	res *= 2;
+	if (sig == SIGUSR1)
+		res += 1;
+	else if (sig == SIGUSR2)
+		res += 0;
+	if (++i == 8)
 	{
 		if (res == 0)
 			kill(info->si_pid, SIGUSR1);
@@ -83,10 +92,12 @@ int main(int argc, char **argv)
 	if(argc != 1)
 		return (0);
     pid = getpid();
-    printf("server PID: %d", pid);
-    sigo.__sigaction_u.__sa_sigaction = &handler;
+    ft_putstr("The PID is : ");
+	ft_putnbr(pid);
+	ft_putchar('\n');
+    sigo.sa_sigaction = &handler;
     sigaction(SIGUSR1, &sigo, NULL);
     sigaction(SIGUSR2, &sigo, NULL);
     while (1)
-		pause();
+			pause();
 }

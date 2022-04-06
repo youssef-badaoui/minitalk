@@ -59,29 +59,23 @@ int ft_atoi(char *s)
     return (signe * res);
 }
 
-
-void handler(int s, siginfo_t *info, void *p)
-{
-    ft_putstr("message is resived\n");
-    exit(1);
-}
-
 void send(char *s, int pid)
 {
     int i;
     int m;
 
     i = 0;
-    m = 7;
     while(s[i])
     {
+        m = 7;
         while(m >= 0)
-        {
-            if((s[i] >> i) & 1)
+        {    
+          if((s[i] >> m) & 1)
                 kill(pid, SIGUSR1);
             else
                 kill(pid, SIGUSR2);
-            m++;
+            usleep(800);
+            m--;
         }
         i++;
     }    
@@ -90,14 +84,9 @@ void send(char *s, int pid)
 int main(int argc, char **argv)
 {
     pid_t   pid;
-    struct sigaction sigo;
 
     if(argc != 3)
         return (0);
     pid = ft_atoi(argv[1]);
-    sigo.__sigaction_u.__sa_sigaction = &handler;
-    sigaction(SIGUSR1, &sigo, NULL);
-    sigaction(SIGUSR1, &sigo, NULL);
-     while (1)
-		pause();
+    send(argv[2], pid);
 }
