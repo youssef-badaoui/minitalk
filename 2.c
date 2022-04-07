@@ -59,34 +59,47 @@ int ft_atoi(char *s)
     return (signe * res);
 }
 
-void send(char *s, int pid)
+void	ft_send(int pid, char c)
 {
-    int i;
-    int m;
+	int		i;
 
-    i = 0;
-    while(s[i])
-    {
-        m = 7;
-        while(m >= 0)
-        {    
-          if((s[i] >> m) & 1)
-                kill(pid, SIGUSR1);
-            else
-                kill(pid, SIGUSR2);
-            usleep(800);
-            m--;
-        }
-        i++;
-    }    
+	i = 7;
+	while (i >= 0)
+	{
+		if ((c >> i) & 1)
+			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
+		i--;
+		usleep(800);
+	}
 }
 
-int main(int argc, char **argv)
+void hand(int s)
 {
-    pid_t   pid;
+	if (s == SIGUSR1)
+	    ft_putstr("message recived\n");
+}
 
-    if(argc != 3)
-        return (0);
-    pid = ft_atoi(argv[1]);
-    send(argv[2], pid);
+int	main(int argc, char **argv)
+{
+	int					pid;
+	int					i;
+	struct sigaction	s;
+
+	i = 0;
+	s.sa_handler = &hand;
+	sigaction(SIGUSR1, &s, NULL);
+	if (argc == 3)
+	{
+		pid = ft_atoi(argv[1]);
+		while (argv[2][i])
+		{
+			ft_send(pid, argv[2][i]);
+			i++;
+		}
+		//ft_send(pid, 0);
+	}
+	else
+		ft_putstr("argc error\n");
 }

@@ -45,15 +45,6 @@ void	ft_putstr(char *s)
 		ft_putchar(s[i]);
 }
 
-int ft_pow(int a, int b)
-{
-	int res = a;
-	while(--b)
-	{
-		res *= a;
-	}
-}
-
 void	reset(int *i, int *res)
 {
 	(*i) = 0;
@@ -66,6 +57,11 @@ void	handler(int sig, siginfo_t *info, void *p)
 	static int		res;
 
 	(void)p;
+	if (g_pid != info->si_pid)
+	{
+		reset(&i, &res);
+		g_pid = info->si_pid;
+	}
 	res *= 2;
 	if (sig == SIGUSR1)
 		res += 1;
@@ -74,14 +70,15 @@ void	handler(int sig, siginfo_t *info, void *p)
 	if (++i == 8)
 	{
 		if (res == 0)
-			kill(info->si_pid, SIGUSR1);
-		else
+		  	kill(info->si_pid, SIGUSR1);
+		 else
 		{
 			ft_putchar(res);
 			reset(&i, &res);
 		}
 	}
 }
+
 
 int main(int argc, char **argv)
 {
