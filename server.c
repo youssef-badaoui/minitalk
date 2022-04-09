@@ -17,13 +17,8 @@ void	handler(int sig, siginfo_t *info, void *p)
 	(void)p;
 	if (g_pid != info->si_pid)
 	{
-		char del;
-
-		del = 8;
 		reset(&i, &res);
 		g_pid = info->si_pid;
-
-		write(1,&del,1);
 	}
 	res *= 2;
 	if (sig == SIGUSR1)
@@ -32,13 +27,8 @@ void	handler(int sig, siginfo_t *info, void *p)
 		res += 0;
 	if (++i == 8)
 	{
-		if (res == 0)
-		  	kill(info->si_pid, SIGUSR1);
-		 else
-		{
-			ft_putchar(res);
-			reset(&i, &res);
-		}
+		ft_putchar(res);
+		reset(&i, &res);
 	}
 }
 

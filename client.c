@@ -16,21 +16,13 @@ void	ft_send(int pid, char c)
 	}
 }
 
-void hand(int s)
-{
-	if (s == SIGUSR1)
-	    ft_putstr("done!\n");
-}
-
 int	main(int argc, char **argv)
 {
 	int					pid;
 	int					i;
-	struct sigaction	s;
+
 
 	i = 0;
-	s.sa_handler = &hand;
-	sigaction(SIGUSR1, &s, NULL);
 	pid = ft_atoi(argv[1]);
 	if (argc == 3 && pid >= 0)
 	{
