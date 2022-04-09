@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ybadaoui <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/09 09:01:56 by ybadaoui          #+#    #+#             */
+/*   Updated: 2022/04/09 09:01:59 by ybadaoui         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minitalk.h"
 
-pid_t g_pid = 0;
+pid_t	g_pid = 0;
 
 void	reset(int *i, int *res)
 {
@@ -32,25 +43,21 @@ void	handler(int sig, siginfo_t *info, void *p)
 	}
 }
 
-
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    pid_t pid;
-    struct sigaction sigo;
+	pid_t				pid;
+	struct sigaction	sigo;
 
-    (void)argv;
-	if(argc != 1)
+	(void)argv;
+	if (argc != 1)
 		return (0);
-    pid = getpid();
-    ft_putstr("The PID is : ");
+	pid = getpid();
+	ft_putstr("The PID is : ");
 	ft_putnbr(pid);
 	ft_putchar('\n');
-    sigo.sa_sigaction = &handler;
-    sigaction(SIGUSR1, &sigo, NULL);
-    sigaction(SIGUSR2, &sigo, NULL);
-    while (1)
-			pause();
+	sigo.sa_sigaction = &handler;
+	sigaction(SIGUSR1, &sigo, NULL);
+	sigaction(SIGUSR2, &sigo, NULL);
+	while (1)
+		pause();
 }
-
-
-

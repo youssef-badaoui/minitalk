@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ybadaoui <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/09 09:02:27 by ybadaoui          #+#    #+#             */
+/*   Updated: 2022/04/09 09:02:29 by ybadaoui         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
 void	ft_send(int pid, char c)
@@ -16,10 +28,10 @@ void	ft_send(int pid, char c)
 	}
 }
 
-void hand(int s)
+void	hand(int s)
 {
 	if (s == SIGUSR1)
-	    ft_putstr("done!\n");
+		ft_putstr("done!\n");
 }
 
 int	main(int argc, char **argv)
