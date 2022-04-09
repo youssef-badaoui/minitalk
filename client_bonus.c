@@ -43,9 +43,9 @@ int	main(int argc, char **argv)
 	i = 0;
 	s.sa_handler = &hand;
 	sigaction(SIGUSR1, &s, NULL);
-	pid = ft_atoi(argv[1]);
-	if (argc == 3 && pid >= 0)
+	if (argc == 3 && ft_atoi(argv[1]))
 	{
+		pid = ft_atoi(argv[1]);
 		while (argv[2][i])
 		{
 			ft_send(pid, argv[2][i]);

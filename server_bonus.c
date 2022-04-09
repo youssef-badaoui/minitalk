@@ -20,12 +20,13 @@ void	reset(int *i, int *res)
 	(*res) = 0;
 }
 
-void	restpls(int *i, int *res)
+void	resetpls(int *i, int *res)
 {
 	char	del;
 
 	del = 8;
-	reset(&i, &res);
+	(*i) = 0;
+	(*res) = 0;
 	write(1, &del, 1);
 }
 
@@ -33,7 +34,6 @@ void	handler(int sig, siginfo_t *info, void *p)
 {
 	static int		i;
 	static int		res;
-	char			del;
 
 	(void)p;
 	if (g_pid != info->si_pid)
